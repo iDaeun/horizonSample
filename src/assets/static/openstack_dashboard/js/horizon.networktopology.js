@@ -83,7 +83,7 @@ horizon.network_topology = {
   nodes: [],
   links: [],
   data: [],
-  zoom: d3.zoom(),
+  zoom: d3.behavior.zoom(),
   data_loaded: false,
   svg_container:'#topologyCanvasContainer',
   balloonTmpl : null,
@@ -100,7 +100,7 @@ horizon.network_topology = {
 
     self.$loading_template = horizon.networktopologyloader.setup_loader($(self.svg_container));
 
-    if (angular.element('#networktopology').length === 0) {
+    if ($('#networktopology').length === 0) {
       return;
     }
 
@@ -110,14 +110,16 @@ horizon.network_topology = {
     self.data.servers = {};
     self.data.ports = {};
 
-    // Setup balloon popups
-    self.balloonTmpl = Hogan.compile(angular.element('#balloon_container').html());
-    self.balloon_deviceTmpl = Hogan.compile(angular.element('#balloon_device').html());
-    self.balloon_portTmpl = Hogan.compile(angular.element('#balloon_port').html());
-    self.balloon_netTmpl = Hogan.compile(angular.element('#balloon_net').html());
-    self.balloon_instanceTmpl = Hogan.compile(angular.element('#balloon_instance').html());
 
-    angular.element(document)
+    // TODO 말풍선
+    // Setup balloon popups
+    // self.balloonTmpl = Hogan.compile($('#balloon_container').html());
+    // self.balloon_deviceTmpl = Hogan.compile($('#balloon_device').html());
+    // self.balloon_portTmpl = Hogan.compile($('#balloon_port').html());
+    // self.balloon_netTmpl = Hogan.compile($('#balloon_net').html());
+    // self.balloon_instanceTmpl = Hogan.compile($('#balloon_instance').html());
+
+    $(document)
       .on('click', 'a.closeTopologyBalloon', function(e) {
         e.preventDefault();
         self.delete_balloon();
@@ -127,22 +129,22 @@ horizon.network_topology = {
       })
       .on('click', 'a.vnc_window', function(e) {
         e.preventDefault();
-        var vncWindow = window.open(angular.element(this).attr('href'), vncWindow, 'width=760,height=560');
+        var vncWindow = window.open($(this).attr('href'), vncWindow, 'width=760,height=560');
         self.delete_balloon();
       });
 
-    angular.element('#toggle_labels').change(function() {
+    $('#toggle_labels').change(function() {
       horizon.cookies.put('show_labels', this.checked);
       self.refresh_labels();
     });
 
-    angular.element('#toggle_networks').change(function() {
+    $('#toggle_networks').change(function() {
       horizon.cookies.put('are_networks_collapsed', this.checked);
       self.refresh_networks();
       self.refresh_labels();
     });
 
-    angular.element('#center_topology').click(function() {
+    $('#center_topology').click(function() {
      this.blur(); // remove btn focus after click
      self.delete_balloon();
       // move visualization to the center and reset scale
@@ -156,8 +158,8 @@ horizon.network_topology = {
       self.zoom.scale(1);
       self.translate = null;
     });
-    angular.element(window).on('message', function(e) {
-        var message = angular.element.parseJSON(e.originalEvent.data);
+    $(window).on('message', function(e) {
+        var message = $.parseJSON(JSON.stringify(e.originalEvent.data));
         if (self.previous_message !== message.message) {
           horizon.alert(message.type, message.message);
           self.previous_message = message.message;
@@ -182,17 +184,17 @@ horizon.network_topology = {
     }
 
     d3.select(window).on('resize', function() {
-      var width = angular.element('#topologyCanvasContainer').width();
-      var height = angular.element('#topologyCanvasContainer').height();
+      var width = $('#topologyCanvasContainer').width();
+      var height = $('#topologyCanvasContainer').height();
       self.force.size([width, height]).resume();
     });
 
-    angular.element('#networktopology').on('change', function() {
+    $('#networktopology').on('change', function() {
       self.retrieve_network_info(true);
       if(angular.equals(self.data.networks,{}) && angular.equals(self.data.routers,{}) &&
          angular.equals(self.data.servers,{})){
         $('.loader-inline').remove();
-        angular.element('#topologyCanvasContainer').find('svg').remove();
+        $('#topologyCanvasContainer').find('svg').remove();
         $(self.svg_container).addClass('noinfo');
         return;
       }
@@ -207,7 +209,7 @@ horizon.network_topology = {
   // Shows/Hides graph labels
   refresh_labels: function() {
     var show_labels = horizon.cookies.get('show_labels') == 'true';
-    angular.element('.nodeLabel').toggle(show_labels);
+    $('.nodeLabel').toggle(show_labels);
   },
 
   // Collapses/Uncollapses networks in the graph
@@ -231,14 +233,14 @@ horizon.network_topology = {
     var networks = horizon.cookies.get('are_networks_collapsed') == 'true';
 
     if(networks) {
-      angular.element('#toggle_networks_label').addClass('active');
-      angular.element('#toggle_networks').prop('checked', networks);
+      $('#toggle_networks_label').addClass('active');
+      $('#toggle_networks').prop('checked', networks);
       self.refresh_networks();
     }
 
     if(labels) {
-      angular.element('#toggle_labels_label').addClass('active');
-      angular.element('#toggle_labels').prop('checked', labels);
+      $('#toggle_labels_label').addClass('active');
+      $('#toggle_labels').prop('checked', labels);
       self.refresh_labels();
     }
   },
@@ -281,12 +283,12 @@ horizon.network_topology = {
   // Setup the main visualisation
   create_vis: function() {
     var self = this;
-    angular.element('#topologyCanvasContainer').find('svg').remove();
+    $('#topologyCanvasContainer').find('svg').remove();
 
     // Main svg
     self.outer_group = d3.select('#topologyCanvasContainer').append('svg')
       .attr('width', '100%')
-      .attr('height', angular.element(document).height() - 270 + "px")
+      .attr('height', $(document).height() - 270 + "px")
       .attr('pointer-events', 'all')
       .append('g')
       .call(self.zoom
@@ -363,7 +365,8 @@ horizon.network_topology = {
   force_direction: function(grav, dist, ch) {
     var self = this;
 
-    angular.element('[data-toggle="tooltip"]').tooltip({container: 'body'});
+    // TODO
+    // $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     self.curve = d3.svg.line()
       .interpolate('cardinal-closed')
       .tension(0.85);
@@ -399,8 +402,8 @@ horizon.network_topology = {
         }
       })
       .charge(ch)
-      .size([angular.element('#topologyCanvasContainer').width(),
-             angular.element('#topologyCanvasContainer').height()])
+      .size([$('#topologyCanvasContainer').width(),
+             $('#topologyCanvasContainer').height()])
       .nodes(self.nodes)
       .links(self.links)
       .on('tick', function() {
@@ -535,7 +538,7 @@ horizon.network_topology = {
     }
 
     nodeEnter.on('click', function(d) {
-      self.show_balloon(d.data, d, angular.element(this));
+      self.show_balloon(d.data, d, $(this));
     });
 
     // Highlight the links for currently selected node
@@ -974,7 +977,7 @@ horizon.network_topology = {
     }
     self.force.stop();
     if (d.hasOwnProperty('ports')) {
-      angular.element.each(d.ports, function(i, port) {
+      $.each(d.ports, function(i, port) {
         var object = {};
         object.id = port.id;
         object.router_id = port.device_id;
@@ -1012,7 +1015,7 @@ horizon.network_topology = {
         ports.push(object);
       });
     } else if (d.hasOwnProperty('subnets')) {
-      angular.element.each(d.subnets, function(i, snet) {
+      $.each(d.subnets, function(i, snet) {
         var object = {};
         object.id = snet.id;
         object.cidr = snet.cidr;
@@ -1080,18 +1083,18 @@ horizon.network_topology = {
     } else {
       return;
     }
-    angular.element(self.svg_container).append(html);
+    $(self.svg_container).append(html);
     var devicePosition = self.getScreenCoords(d2.x, d2.y);
     var x = devicePosition.x;
     var y = devicePosition.y;
     var xoffset = 100;
     var yoffset = 95;
-    angular.element('#' + balloonID).css({
+    $('#' + balloonID).css({
       'left': x + xoffset + 'px',
       'top': y + yoffset + 'px'
     }).show();
-    var _balloon = angular.element('#' + balloonID);
-    if (element.x + _balloon.outerWidth() > angular.element(window).outerWidth()) {
+    var _balloon = $('#' + balloonID);
+    if (element.x + _balloon.outerWidth() > $(window).outerWidth()) {
       _balloon
         .css({
           'left': 0 + 'px'
@@ -1102,7 +1105,7 @@ horizon.network_topology = {
         .addClass('leftPosition');
     }
     _balloon.find('.delete-device').click(function() {
-      var _this = angular.element(this);
+      var _this = $(this);
       var delete_modal = horizon.datatables.confirm(_this);
       delete_modal.find('.btn.btn-danger').click(function () {
         _this.prop('disabled', true);
@@ -1111,7 +1114,7 @@ horizon.network_topology = {
       });
     });
     _balloon.find('.delete-port').click(function() {
-      var _this = angular.element(this);
+      var _this = $(this);
       var delete_modal = horizon.datatables.confirm(_this);
       delete_modal.find('.btn.btn-danger').click(function () {
         _this.prop('disabled', true);
@@ -1124,7 +1127,7 @@ horizon.network_topology = {
   delete_balloon:function() {
     var self = this;
     if (self.balloonID) {
-      angular.element('#' + self.balloonID).remove();
+      $('#' + self.balloonID).remove();
       self.balloonID = null;
       self.force.start();
     }

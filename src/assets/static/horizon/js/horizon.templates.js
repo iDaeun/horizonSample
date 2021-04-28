@@ -33,6 +33,7 @@ horizon.templates.compile_templates = function (id) {
 
   // If an id is passed in, only compile that template
   if (id) {
+    console.log('$(id).html()', $(id).html());
     horizon.templates.compiled_templates[id] = Hogan.compile($(id).html());
   } else {
     // If its never been set, make it an empty object

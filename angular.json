@@ -24,14 +24,18 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/rickshaw/rickshaw.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/d3/dist/d3.min.js",
+              "./node_modules/d3/d3.min.js",
+              "./node_modules/hogan.js/lib/hogan.js",
+              "./node_modules/rickshaw/rickshaw.min.js",
               "src/assets/static/horizon/js/horizon.js",
               "src/assets/static/horizon/js/horizon.loader.js",
               "src/assets/static/horizon/js/horizon.templates.js",
+              "src/assets/static/horizon/js/horizon.d3linechart.js",
               "src/assets/static/test-shim.js",
               "src/assets/static/openstack_dashboard/js/horizon.flatnetworktopology.js",
               "src/assets/static/openstack_dashboard/js/horizon.instances.js",
