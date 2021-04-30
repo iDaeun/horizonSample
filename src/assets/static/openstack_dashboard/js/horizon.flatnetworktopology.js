@@ -39,7 +39,7 @@ horizon.flat_network_topology = {
   network_index: {},
   balloon_id:null,
   reload_duration: 10000,
-  draw_mode:'normal',
+  draw_mode:'small',
   network_height : 0,
   previous_message : null,
   element_properties:{
@@ -148,7 +148,7 @@ horizon.flat_network_topology = {
   },
   select_draw_mode:function() {
     var self = this;
-    var draw_mode = 'normal';
+    var draw_mode = 'small'; // *** 작음 : 'small' , 표준 : 'normal'
     try {
       draw_mode = horizon.cookies.get('ntp_draw_mode');
     }
@@ -384,9 +384,10 @@ horizon.flat_network_topology = {
       .append('line')
       .attr('class','port_line');
 
-    port_enter
-      .append('text')
-      .attr('class','port_text');
+    // *** 아이콘 옆에 port 번호 표시
+    // port_enter
+    //   .append('text')
+    //   .attr('class','port_text');
 
     device.select('g.ports').each(function(d){
       this._portdata = {};
