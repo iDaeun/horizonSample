@@ -83,67 +83,15 @@ horizon.flat_network_topology = {
   init:function() {
     var self = this;
     self.$container = $(self.svg_container);
-    self.$loading_template = horizon.networktopologyloader.setup_loader($(self.$container));
-
-    // if($('#networktopology').length === 0) {
-    //   return;
-    // }
-
     self.color = d3.scale.category10();
     self.load_network_info();
-
-    // TODO 말풍선
-    // self.balloon_tmpl = Hogan.compile($('#balloon_container').html());
-    // self.balloon_device_tmpl = Hogan.compile($('#balloon_device').html());
-    // self.balloon_port_tmpl = Hogan.compile($('#balloon_port').html());
-
-    $(document)
-      .on('click', 'a.closeTopologyBalloon', function(e) {
-        e.preventDefault();
-        self.delete_balloon();
-      })
-      .on('click', '.topologyBalloon', function(e) {
-        e.stopPropagation();
-      })
-      .on('click', 'a.vnc_window', function(e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        var vnc_window = window.open($(this).attr('href'), vnc_window, 'width=760,height=560');
-        self.delete_balloon();
-      })
-      .click(function(){
-        self.delete_balloon();
-      });
-
-    // 작음, 표준 선택 btn
-    // $('.toggle-view > .btn').click(function(){
-    //   self.draw_mode = $(this).data('value');
-    //   $('g.network').remove();
-    //   horizon.cookies.put('ntp_draw_mode',self.draw_mode);
-    //   self.data_convert();
-    // });
-
-    self.$loading_template.show();
-
-    // *** networktopology 데이터 조회 및 주입
-    // $('#networktopology').on('change', function() {
-    //   self.load_network_info();
-    // });
-
-    // register for message notifications
-    //horizon.networktopologymessager.addMessageHandler(self.handleMessage, this);
   },
-
-  /*handleMessage:function(message) {
-    // noop
-  },*/
 
   load_network_info:function(){
     var self = this;
 
     // *** model = 데이터
     self.model = JSON.parse(horizon.networktopologyloader.model);
-    // console.log('self.model', self.model);
     self.data_convert();
   },
   select_draw_mode:function() {
@@ -219,9 +167,7 @@ horizon.flat_network_topology = {
     self.network_height += element_properties.top_margin;
     self.network_height = (self.network_height > element_properties.network_min_height) ? self.network_height : element_properties.network_min_height;
     self.draw_topology();
-    self.$loading_template.hide();
   },
-
   draw_topology:function() {
     var self = this;
     $(self.svg_container).removeClass('noinfo');
@@ -302,9 +248,6 @@ horizon.flat_network_topology = {
         return self.network_height - self.element_properties.cidr_margin;
       });
 
-    // TODO
-    // $('[data-toggle="tooltip"]').tooltip({container: 'body'});
-
     network.exit().remove();
 
     var device = network.selectAll('g.device')
@@ -345,31 +288,6 @@ horizon.flat_network_topology = {
       .attr('y',function(d) {
         return element_properties.type_y + d.height - element_properties.default_height;
       });
-    device
-      .select('.name')
-      .text(function(d) { return self.string_truncate(d.name); });
-    device.each(function(d) {
-      if (d.status === 'BUILD') {
-        d3.select(this).classed('loading',true);
-      } else if (d.task === 'deleting') {
-        d3.select(this).classed('loading',true);
-        if ('bl_' + d.id === self.balloon_id) {
-          self.delete_balloon();
-        }
-      } else {
-        d3.select(this).classed('loading',false);
-        if ('bl_' + d.id === self.balloon_id) {
-          var $this = $(this);
-          self.show_balloon(d,$this);
-        }
-      }
-    });
-
-    device.exit().each(function(d){
-      if ('bl_' + d.id === self.balloon_id) {
-        self.delete_balloon();
-      }
-    }).remove();
 
     var port = device.select('g.ports')
       .selectAll('g.port')
@@ -498,171 +416,4 @@ horizon.flat_network_topology = {
     });
     return sum_port_length;
   },
-  string_truncate: function(string) {
-    var self = this;
-    var str = string;
-    var max_size = self.element_properties.device_name_max_size;
-    var suffix = self.element_properties.device_name_suffix;
-    var bytes = 0;
-    for (var i = 0; i < str.length; i++) {
-      bytes += str.charCodeAt(i) <= 255 ? 1 : 2;
-      if (bytes > max_size) {
-        str = str.substr(0, i) + suffix;
-        break;
-      }
-    }
-    return str;
-  },
-  delete_device: function(device_type, device_id) {
-    var message = {id:device_id};
-    var target = device_type === 'instance' ? 'instance?id=' + device_id : device_type;
-    horizon.networktopologymessager.post_message(device_id, target, message, device_type, 'delete', data={});
-  },
-  delete_port: function(router_id, port_id, network_id) {
-    var message = {id:port_id};
-    var data = {router_id: router_id, network_id: network_id};
-    horizon.networktopologymessager.post_message(port_id, 'router/' + router_id + '/', message, 'port', 'delete', data);
-  },
-  show_balloon:function(d,element) {
-    var self = this;
-    var element_properties = self.element_properties[self.draw_mode];
-    if (self.balloon_id) {
-      self.delete_balloon();
-    }
-    var balloon_tmpl = self.balloon_tmpl;
-    var device_tmpl = self.balloon_device_tmpl;
-    var port_tmpl = self.balloon_port_tmpl;
-    var balloon_id = 'bl_' + d.id;
-    var ports = [];
-    $.each(d.ports,function(i, port){
-      var object = {};
-      object.id = port.id;
-      object.router_id = port.device_id;
-      object.url = port.url;
-      object.port_status = port.status;
-      object.port_status_class = (port.original_status === "ACTIVE")? 'active' : 'down';
-      var ip_address = '';
-      try {
-        ip_address = port.fixed_ips[0].ip_address;
-      }catch(e){
-        ip_address = gettext('None');
-      }
-      var device_owner = '';
-      try {
-        device_owner = port.device_owner.replace('network:','');
-      }catch(e){
-        device_owner = gettext('None');
-      }
-      var network_id = '';
-      try {
-        network_id = port.network_id;
-      }catch(e) {
-        network_id = gettext('None');
-      }
-      object.network_id = network_id;
-      object.ip_address = ip_address;
-      object.device_owner = device_owner;
-      object.is_interface = (
-        device_owner === 'router_interface' ||
-        device_owner === 'router_gateway' ||
-        device_owner === 'ha_router_replicated_interface'
-      );
-      // (device_owner === 'router_interface' || device_owner === 'router_gateway');
-      ports.push(object);
-    });
-    var html;
-    var html_data = {
-      balloon_id:balloon_id,
-      id:d.id,
-      url:d.url,
-      name:d.name,
-      type:d.type,
-      delete_label: gettext("Delete"),
-      status:d.status,
-      status_class:(d.original_status === "ACTIVE")? 'active' : 'down',
-      status_label: gettext("STATUS"),
-      id_label: gettext("ID"),
-      interfaces_label: gettext("Interfaces"),
-      delete_interface_label: gettext("Delete Interface"),
-      open_console_label: gettext("Open Console"),
-      view_details_label: gettext("View Details")
-    };
-    if (d.type === 'router') {
-      html_data.delete_label = gettext("Delete Router");
-      html_data.view_details_label = gettext("View Router Details");
-      html_data.port = ports;
-      html_data.add_interface_url = d.url + 'addinterface';
-      html_data.add_interface_label = gettext("Add Interface");
-      html = balloon_tmpl.render(html_data,{
-        table1:device_tmpl,
-        table2:(ports.length > 0) ? port_tmpl : null
-      });
-    } else if (d.type === 'instance') {
-      html_data.delete_label = gettext("Delete Instance");
-      html_data.view_details_label = gettext("View Instance Details");
-      html_data.console_id = d.id;
-      html_data.console = d.console;
-      html = balloon_tmpl.render(html_data,{
-        table1:device_tmpl
-      });
-    } else {
-      return;
-    }
-    $(self.svg_container).append(html);
-    var device_position = element.find('.frame');
-    var sidebar_width = $("#sidebar").width();
-    var navbar_height = $(".navbar").height();
-    var breadcrumb_height = $(".breadcrumb").outerHeight(true);
-    var pageheader_height = $(".page-header").outerHeight(true);
-    var launchbuttons_height = $(".launchButtons").height();
-    var height_offset = navbar_height + breadcrumb_height + pageheader_height + launchbuttons_height;
-    var device_offset = device_position.offset();
-    var x = Math.round(device_offset.left + element_properties.device_width + element_properties.balloon_margin.x - sidebar_width);
-    // 15 is magic pixel value that seems to make things line up
-    var y = Math.round(device_offset.top + element_properties.balloon_margin.y - height_offset + 15);
-    var $balloon = $('#' + balloon_id);
-    $balloon.css({
-      'left': '0px',
-      'top': y + 'px'
-    });
-    var balloon_width = $balloon.outerWidth();
-    var left_x = device_offset.left - balloon_width - element_properties.balloon_margin.x - sidebar_width;
-    var right_x = x + balloon_width + element_properties.balloon_margin.x + sidebar_width;
-
-    if (left_x > 0 && right_x > $(window).outerWidth()) {
-      x = left_x;
-      $balloon.addClass('leftPosition');
-    }
-    $balloon.css({
-      'left': x + 'px'
-    }).show();
-
-    $balloon.find('.delete-device').click(function(){
-      var $this = $(this);
-      var delete_modal = horizon.datatables.confirm($this);
-      delete_modal.find('.btn.btn-danger').click(function () {
-        $this.prop('disabled', true);
-        d3.select('#id_' + $this.data('device-id')).classed('loading',true);
-        self.delete_device($this.data('type'),$this.data('device-id'));
-        horizon.modals.spinner.modal('hide');
-      });
-    });
-    $balloon.find('.delete-port').click(function(){
-      var $this = $(this);
-      var delete_modal = horizon.datatables.confirm($this);
-      delete_modal.find('.btn.btn-danger').click(function () {
-        $this.prop('disabled', true);
-        self.delete_port($this.data('router-id'),$this.data('port-id'),$this.data('network-id'));
-        horizon.modals.spinner.modal('hide');
-      });
-    });
-    self.balloon_id = balloon_id;
-  },
-  delete_balloon: function() {
-    var self = this;
-    if(self.balloon_id) {
-      $('#' + self.balloon_id).remove();
-      self.balloon_id = null;
-    }
-  }
 };

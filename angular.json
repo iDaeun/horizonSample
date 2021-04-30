@@ -36,14 +36,8 @@
               "src/assets/static/horizon/js/horizon.loader.js",
               "src/assets/static/horizon/js/horizon.templates.js",
               "src/assets/static/horizon/js/horizon.d3linechart.js",
-              "src/assets/static/test-shim.js",
               "src/assets/static/openstack_dashboard/js/horizon.flatnetworktopology.js",
-              "src/assets/static/openstack_dashboard/js/horizon.instances.js",
-              "src/assets/static/openstack_dashboard/js/horizon.metering.js",
-              "src/assets/static/openstack_dashboard/js/horizon.networktopologycommon.js",
-              "src/assets/static/openstack_dashboard/js/horizon.networktopology.js",
-              "src/assets/static/openstack_dashboard/js/horizon.quota.js",
-              "src/assets/static/openstack_dashboard/js/horizon.volumes.js"
+              "src/assets/static/openstack_dashboard/js/horizon.networktopologycommon.js"
             ]
           },
           "configurations": {

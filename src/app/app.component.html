@@ -1,15 +1,3 @@
-
-app component
-
-<!-- {% url 'horizon:project:network_topology:json' %} -> Django으로 callable view 연결 (url.py) -> python으로 데이터 조회 (views.py JSONView()) -->
-<span data-networktopology="{% url 'horizon:project:network_topology:json' %}" id="networktopology"></span>
-<div id="topologyMessages"></div>
-
-<!-- GRAPH -->
-<!--<div id="topologyCanvasContainer" class="d3-container">-->
-<!--  <div class="nodata"></div>-->
-<!--</div>-->
-
 <div class="row">
   <div class="col-sm-12">
     <div class="tab-content">
@@ -18,7 +6,7 @@ app component
         <div id="flatTopologyCanvasContainer">
           <div id="loader-inline" class="loader-inline">
             <span class="loader fa fa-spinner fa-spin fa-4x text-center"></span>
-            <div class="loader-caption h4 text-center">[[text]]&hellip;</div>
+            <div class="loader-caption h4 text-center"></div>
           </div>
           <div class="nodata"></div>
           <svg width="400" height="400" id="topology_canvas">
@@ -121,30 +109,6 @@ app component
                     data-toggle="tooltip" data-placement="bottom" title="외부 네트워크"></text>
             </g>
           </svg>
-<!--          <div class="topologyBalloon" id="[[balloon_id]]">-->
-<!--            <a href="#close" class="closeTopologyBalloon">&times;</a>-->
-<!--            <div class="contentBody">-->
-<!--              [[> table1]]-->
-<!--              [[> table2]]-->
-<!--            </div>-->
-<!--            <div class="footer">-->
-<!--              <div class="footerInner">-->
-<!--                <div class="cell link">-->
-<!--                  <a href="[[url]]">» [[view_details_label]]</a>-->
-<!--                  <a href="[[url]][[console]]" class="vnc_window">» [[open_console_label]]</a>-->
-<!--                  [[/console]]-->
-<!--                </div>-->
-<!--                [[#type]]-->
-<!--                <div class="cell delete">-->
-<!--                  <button class="delete-device btn btn-danger btn-xs [[type]]"-->
-<!--                          data-type="[[type]]" data-device-id="[[id]]">-->
-<!--                  [[delete_label]]-->
-<!--                  </button>-->
-<!--                </div>-->
-<!--                [[/type]]-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
         </div>
       </div>
     </div>
