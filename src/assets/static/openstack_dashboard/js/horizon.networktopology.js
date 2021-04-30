@@ -69,7 +69,7 @@ function Server(data) {
 function listContains(obj, list) {
   // Function to help checking if an object is present on a list
   for (var i = 0; i < list.length; i++) {
-    if (angular.equals(list[i], obj)) {
+    if (list[i] === obj) {
       return true;
     }
   }
@@ -100,7 +100,7 @@ horizon.network_topology = {
 
     self.$loading_template = horizon.networktopologyloader.setup_loader($(self.svg_container));
 
-    if ($('#networktopology').length === 0) {
+    if (horizon.networktopologycommon.topologyData === null) {
       return;
     }
 
@@ -179,7 +179,7 @@ horizon.network_topology = {
 
     self.create_vis();
     self.force_direction(0.05,70,-700);
-    if(horizon.networktopologyloader.model !== null) {
+    if(horizon.networktopologycommon.topologyData !== null) {
       self.retrieve_network_info(true);
     }
 
@@ -191,8 +191,8 @@ horizon.network_topology = {
 
     $('#networktopology').on('change', function() {
       self.retrieve_network_info(true);
-      if(angular.equals(self.data.networks,{}) && angular.equals(self.data.routers,{}) &&
-         angular.equals(self.data.servers,{})){
+      if($(self.data.networks).equals({}) && $(self.data.routers).equals({}) &&
+         $(self.data.servers).equals({})){
         $('.loader-inline').remove();
         $('#topologyCanvasContainer').find('svg').remove();
         $(self.svg_container).addClass('noinfo');
@@ -227,22 +227,22 @@ horizon.network_topology = {
 
   // Load config from cookie
   load_config: function() {
-    var self = this;
-
-    var labels = horizon.cookies.get('show_labels') == 'true';
-    var networks = horizon.cookies.get('are_networks_collapsed') == 'true';
-
-    if(networks) {
-      $('#toggle_networks_label').addClass('active');
-      $('#toggle_networks').prop('checked', networks);
-      self.refresh_networks();
-    }
-
-    if(labels) {
-      $('#toggle_labels_label').addClass('active');
-      $('#toggle_labels').prop('checked', labels);
-      self.refresh_labels();
-    }
+    // var self = this;
+    //
+    // var labels = horizon.cookies.get('show_labels') == 'true';
+    // var networks = horizon.cookies.get('are_networks_collapsed') == 'true';
+    //
+    // if(networks) {
+    //   $('#toggle_networks_label').addClass('active');
+    //   $('#toggle_networks').prop('checked', networks);
+    //   self.refresh_networks();
+    // }
+    //
+    // if(labels) {
+    //   $('#toggle_labels_label').addClass('active');
+    //   $('#toggle_labels').prop('checked', labels);
+    //   self.refresh_labels();
+    // }
   },
 
   handleMessage:function(message) {
@@ -258,7 +258,7 @@ horizon.network_topology = {
   retrieve_network_info: function(force_start) {
     var self = this;
     self.data_loaded = true;
-    self.load_topology(horizon.networktopologyloader.model);
+    self.load_topology(horizon.networktopologycommon.topologyData);
     if (force_start) {
       var i = 0;
       self.force.start();
@@ -501,32 +501,32 @@ horizon.network_topology = {
         break;
     }
 
-    nodeEnter.append('text')
-      .attr('class', 'nodeLabel')
-      .style('display',function() {
-        var labels = horizon.cookies.get('topology_labels');
-        if (labels) {
-          return 'inline';
-        } else {
-          return 'none';
-        }
-      })
-      .style('fill','black')
-      .text(function(d) {
-        return d.data.name;
-      })
-      .attr('transform', function(d) {
-        switch (Object.getPrototypeOf(d.data)) {
-          case ExternalNetwork.prototype:
-            return 'translate(40,3)';
-          case Network.prototype:
-            return 'translate(35,3)';
-          case Router.prototype:
-            return 'translate(30,3)';
-          case Server.prototype:
-            return 'translate(25,3)';
-        }
-      });
+    // nodeEnter.append('text')
+    //   .attr('class', 'nodeLabel')
+    //   .style('display',function() {
+    //     var labels = horizon.cookies.get('topology_labels');
+    //     if (labels) {
+    //       return 'inline';
+    //     } else {
+    //       return 'none';
+    //     }
+    //   })
+    //   .style('fill','black')
+    //   .text(function(d) {
+    //     return d.data.name;
+    //   })
+    //   .attr('transform', function(d) {
+    //     switch (Object.getPrototypeOf(d.data)) {
+    //       case ExternalNetwork.prototype:
+    //         return 'translate(40,3)';
+    //       case Network.prototype:
+    //         return 'translate(35,3)';
+    //       case Router.prototype:
+    //         return 'translate(30,3)';
+    //       case Server.prototype:
+    //         return 'translate(25,3)';
+    //     }
+    //   });
 
     if (data.data instanceof Network || data.data instanceof ExternalNetwork) {
       nodeEnter.append('svg:text')
@@ -667,7 +667,7 @@ horizon.network_topology = {
     };
 
     // Networks
-    _netref = data.networks;
+    _netref = JSON.parse(data).networks;
     for (_i = 0, _netlen = _netref.length; _i < _netlen; _i++) {
       net = _netref[_i];
       var network = null;
@@ -692,7 +692,7 @@ horizon.network_topology = {
     }
 
     // Routers
-    _rouref = data.routers;
+    _rouref = JSON.parse(data).routers;
     for (_j = 0, _roulen = _rouref.length; _j < _roulen; _j++) {
       rou = _rouref[_j];
       var router = new Router(rou);
@@ -713,7 +713,7 @@ horizon.network_topology = {
     }
 
     // Servers
-    _serref = data.servers;
+    _serref = JSON.parse(data).servers;
     for (_k = 0, _serlen = _serref.length; _k < _serlen; _k++) {
       ser = _serref[_k];
       var server = new Server(ser);
@@ -739,13 +739,13 @@ horizon.network_topology = {
     }
 
     // Ports
-    _portref = data.ports;
+    _portref = JSON.parse(data).ports;
     for (_l = 0, _portlen = _portref.length; _l < _portlen; _l++) {
       port = _portref[_l];
       if (!self.already_in_graph(self.data.ports, port)) {
         var device = self.find_by_id(port.device_id);
         var _network = self.find_by_id(port.network_id);
-        if (angular.isDefined(device) && angular.isDefined(_network)) {
+        if (typeof device !== 'undefined' && typeof _network !== 'undefined') {
           if (port.device_owner && port.device_owner.startsWith('compute:')) {
             _network.data.instances++;
             device.data.networks.push(_network.data);
@@ -776,7 +776,7 @@ horizon.network_topology = {
           }
           self.new_link(self.find_by_id(port.device_id), self.find_by_id(port.network_id));
           change = true;
-        } else if (angular.isDefined(_network) &&
+        } else if (typeof _network !== 'undefined' &&
                    port.device_owner && port.device_owner.startsWith('compute:')) {
           // Need to add a previously hidden node to the graph because it is
           // connected to more than 1 network

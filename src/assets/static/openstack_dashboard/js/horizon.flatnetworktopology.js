@@ -85,13 +85,17 @@ horizon.flat_network_topology = {
     self.$container = $(self.svg_container);
     self.$loading_template = horizon.networktopologyloader.setup_loader($(self.$container));
 
-    if($('#networktopology').length === 0) {
-      return;
-    }
+    // if($('#networktopology').length === 0) {
+    //   return;
+    // }
+
     self.color = d3.scale.category10();
-    self.balloon_tmpl = Hogan.compile($('#balloon_container').html());
-    self.balloon_device_tmpl = Hogan.compile($('#balloon_device').html());
-    self.balloon_port_tmpl = Hogan.compile($('#balloon_port').html());
+    self.load_network_info();
+
+    // TODO 말풍선
+    // self.balloon_tmpl = Hogan.compile($('#balloon_container').html());
+    // self.balloon_device_tmpl = Hogan.compile($('#balloon_device').html());
+    // self.balloon_port_tmpl = Hogan.compile($('#balloon_port').html());
 
     $(document)
       .on('click', 'a.closeTopologyBalloon', function(e) {
@@ -111,17 +115,20 @@ horizon.flat_network_topology = {
         self.delete_balloon();
       });
 
-    $('.toggle-view > .btn').click(function(){
-      self.draw_mode = $(this).data('value');
-      $('g.network').remove();
-      horizon.cookies.put('ntp_draw_mode',self.draw_mode);
-      self.data_convert();
-    });
+    // 작음, 표준 선택 btn
+    // $('.toggle-view > .btn').click(function(){
+    //   self.draw_mode = $(this).data('value');
+    //   $('g.network').remove();
+    //   horizon.cookies.put('ntp_draw_mode',self.draw_mode);
+    //   self.data_convert();
+    // });
 
     self.$loading_template.show();
-    $('#networktopology').on('change', function() {
-      self.load_network_info();
-    });
+
+    // *** networktopology 데이터 조회 및 주입
+    // $('#networktopology').on('change', function() {
+    //   self.load_network_info();
+    // });
 
     // register for message notifications
     //horizon.networktopologymessager.addMessageHandler(self.handleMessage, this);
@@ -133,7 +140,10 @@ horizon.flat_network_topology = {
 
   load_network_info:function(){
     var self = this;
-    self.model = horizon.networktopologyloader.model;
+
+    // *** model = 데이터
+    self.model = JSON.parse(horizon.networktopologyloader.model);
+    // console.log('self.model', self.model);
     self.data_convert();
   },
   select_draw_mode:function() {
@@ -169,6 +179,7 @@ horizon.flat_network_topology = {
   },
   data_convert:function() {
     var self = this;
+    // *** model 포맷 : JSON { servers : [], networks : [], ports : [], routers : [] }
     var model = self.model;
     $.each(model.networks, function(index, network) {
       self.network_index[network.id] = index;
@@ -210,6 +221,7 @@ horizon.flat_network_topology = {
     self.draw_topology();
     self.$loading_template.hide();
   },
+
   draw_topology:function() {
     var self = this;
     $(self.svg_container).removeClass('noinfo');
@@ -290,7 +302,8 @@ horizon.flat_network_topology = {
         return self.network_height - self.element_properties.cidr_margin;
       });
 
-    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+    // TODO
+    // $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 
     network.exit().remove();
 
@@ -308,7 +321,8 @@ horizon.flat_network_topology = {
     device_enter
       .on('mouseenter',function(d){
       var $this = $(this);
-      self.show_balloon(d,$this);
+      // TODO 말풍선 표시
+      // self.show_balloon(d,$this);
     })
       .on('click',function(){
         d3.event.stopPropagation();

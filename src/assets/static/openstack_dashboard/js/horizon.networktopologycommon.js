@@ -14,9 +14,11 @@
 
 // Aggregate for common network topology functionality
 horizon.networktopologycommon = {
+  topologyData: null,
+
   init:function() {
     horizon.networktopologyloader.init();
-    horizon.networktopologymessager.init();
+    // horizon.networktopologymessager.init();
   }
 };
 
@@ -33,7 +35,7 @@ horizon.networktopologyloader = {
 
   init:function() {
     var self = this;
-    if($('#networktopology').length === 0) {
+    if(horizon.networktopologycommon.topologyData === null) {
       return;
     }
     self.update();
@@ -44,16 +46,24 @@ horizon.networktopologyloader = {
    */
   update:function() {
     var self = this;
-    angular.element.getJSON(
-      angular.element('#networktopology').data('networktopology') + '?' + angular.element.now(),
-      function(data) {
-        self.model = data;
-        $('#networktopology').trigger('change');
-        self.update_timer = setTimeout(function(){
-          self.update();
-        }, self.reload_duration);
-      }
-    );
+
+    self.model = horizon.networktopologycommon.topologyData;
+    self.update_timer = setTimeout(function(){
+      self.update();
+    }, self.reload_duration);
+
+    // angular.element.getJSON(
+    //   // *** 데이터 조회
+    //   angular.element('#networktopology').data('networktopology') + '?' + angular.element.now(),
+    //   function(data) {
+    //     // *** model = 데이터
+    //     self.model = data;
+    //     $('#networktopology').trigger('change');
+    //     self.update_timer = setTimeout(function(){
+    //       self.update();
+    //     }, self.reload_duration);
+    //   }
+    // );
   },
 
   /**
