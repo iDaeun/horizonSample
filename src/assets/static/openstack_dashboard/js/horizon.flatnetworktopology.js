@@ -91,7 +91,7 @@ horizon.flat_network_topology = {
     var self = this;
 
     // *** model = 데이터
-    self.model = JSON.parse(horizon.networktopologyloader.model);
+    self.model = horizon.networktopologyloader.model;
     self.data_convert();
   },
   select_draw_mode:function() {
@@ -204,7 +204,9 @@ horizon.flat_network_topology = {
               });
             })
             .on('click',function(){
-              window.location.href = d.url;
+              // TODO: 네트워크 상세페이지로 이동
+              console.log('네트워크 상세페이지로 이동');
+              // window.location.href = d.url;
             });
         } else {
           $this.classed('nourl', true);
@@ -264,9 +266,12 @@ horizon.flat_network_topology = {
     device_enter
       .on('mouseenter',function(d){
       var $this = $(this);
+      var offset = $this.find('.frame').offset();
+      console.log('말풍선 표시 $this offset', offset);
       // TODO 말풍선 표시
       // self.show_balloon(d,$this);
-    })
+        $('#detail_popup').css({'left': offset.left, 'top': offset.top, 'position': 'absolute'});
+      })
       .on('click',function(){
         d3.event.stopPropagation();
       });
@@ -415,5 +420,5 @@ horizon.flat_network_topology = {
       sum_port_length += base_index - self.get_network_index(port.network_id);
     });
     return sum_port_length;
-  },
+  }
 };

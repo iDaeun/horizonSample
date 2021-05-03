@@ -1,5 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NetworkTopologyService} from './network-topology.service';
+import {TopologyModel} from './topology.model';
 
 declare var horizon: any;
 
@@ -10,10 +11,10 @@ declare var horizon: any;
 })
 export class AppComponent implements OnInit, AfterViewInit{
 
-  public topologyData: string;
+  public topologyData: TopologyModel;
 
   constructor(private service: NetworkTopologyService) {
-    this.topologyData = this.service.getJSON();
+    this.topologyData = this.service.getTopologyData();
   }
 
   ngOnInit(): void {
