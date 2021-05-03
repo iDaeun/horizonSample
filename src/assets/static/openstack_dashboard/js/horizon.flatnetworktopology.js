@@ -270,7 +270,7 @@ horizon.flat_network_topology = {
       console.log('말풍선 표시 $this offset', offset);
       // TODO 말풍선 표시
       // self.show_balloon(d,$this);
-        $('#detail_popup').css({'left': offset.left, 'top': offset.top, 'position': 'absolute'});
+        $('#detail_popup').css({'left': offset.left + 20, 'top': offset.top, 'position': 'absolute'});
       })
       .on('click',function(){
         d3.event.stopPropagation();
