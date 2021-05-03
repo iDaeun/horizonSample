@@ -170,7 +170,10 @@ horizon.flat_network_topology = {
   },
   draw_topology:function() {
     var self = this;
-    $(self.svg_container).removeClass('noinfo');
+    $(self.svg_container).removeClass('noinfo')
+      .on('click',function(){
+      $('#detail_popup').hide();
+    });
     if (self.model.networks.length <= 0) {
       $('g.network').remove();
       $(self.svg_container).addClass('noinfo');
@@ -270,10 +273,11 @@ horizon.flat_network_topology = {
       console.log('말풍선 표시 $this offset', offset);
       // TODO 말풍선 표시
       // self.show_balloon(d,$this);
-        $('#detail_popup').css({'left': offset.left + 20, 'top': offset.top, 'position': 'absolute'});
+        $('#detail_popup').css({'left': offset.left + 20, 'top': offset.top, 'position': 'absolute'}).show();
       })
       .on('click',function(){
         d3.event.stopPropagation();
+        $('#detail_popup').hide();
       });
 
     device
