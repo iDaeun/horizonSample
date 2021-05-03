@@ -16,7 +16,7 @@
 horizon.networktopologycommon = {
   topologyData: null,
 
-  init:function() {
+  init: function () {
     horizon.networktopologyloader.init();
   }
 };
@@ -32,21 +32,21 @@ horizon.networktopologyloader = {
   // timer controlling update intervals
   update_timer: null,
 
-  init:function() {
+  init: function () {
     var self = this;
-    if(horizon.networktopologycommon.topologyData === null) {
+    if (horizon.networktopologycommon.topologyData === null) {
       return;
     }
     self.update();
   },
 
   /**
-   * makes the data reqeuest and populates the 'model'
+   * makes the data request and populates the 'model'
    */
-  update:function() {
+  update: function () {
     var self = this;
     self.model = horizon.networktopologycommon.topologyData;
-    self.update_timer = setTimeout(function(){
+    self.update_timer = setTimeout(function () {
       self.update();
     }, self.reload_duration);
   }

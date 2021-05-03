@@ -9,7 +9,7 @@ declare var horizon: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit{
+export class AppComponent implements OnInit, AfterViewInit {
 
   public topologyData: TopologyModel;
 
