@@ -6,29 +6,29 @@
   <div class="nodata"></div>
   <svg width="400" height="400" id="topology_canvas">
     <defs>
-      <pattern id="device_normal_bg" patternUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+      <pattern id="device_normal_bg" x="0" y="0" width="20" height="20">
         <g>
           <rect width="20" height="20" class="base_bg_normal"></rect>
         </g>
       </pattern>
-      <pattern id="device_normal_bg_loading" patternUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+      <pattern id="device_normal_bg_loading" x="0" y="0" width="20" height="20">
         <g>
           <rect width="20" height="20" class="loading_bg_normal"></rect>
           <path d='M0 20L20 0ZM22 18L18 22ZM-2 2L2 -2Z' stroke-linecap="square" stroke='rgba(0, 0, 0, 0.3)' stroke-width="7"></path>
         </g>
-        <animate attributeName="x" attributeType="XML" begin="0s" dur="0.5s" from="0" to="-20" repeatCount="indefinite"></animate>
+        <animate begin="0s" dur="0.5s" from="0" to="-20"></animate>
       </pattern>
-      <pattern id="device_small_bg" patternUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+      <pattern id="device_small_bg" x="0" y="0" width="20" height="20">
         <g>
           <rect width="20" height="20" class="base_bg_small"></rect>
         </g>
       </pattern>
-      <pattern id="device_small_bg_loading" patternUnits="userSpaceOnUse" x="0" y="0" width="5" height="5">
+      <pattern id="device_small_bg_loading" x="0" y="0" width="5" height="5">
         <g>
           <rect width="5" height="5" class="loading_bg_small"></rect>
           <path d='M0 5L5 0ZM6 4L4 6ZM-1 1L1 -1Z' stroke-linecap="square" stroke='rgba(0, 0, 0, 0.4)' stroke-width="1.5"></path>
         </g>
-        <animate attributeName="x" attributeType="XML" begin="0s" dur="0.5s" from="0" to="-5" repeatCount="indefinite"></animate>
+        <animate begin="0s" dur="0.5s" from="0" to="-5"></animate>
       </pattern>
     </defs>
   </svg>
@@ -58,7 +58,7 @@
       <text x="250" y="-3" class="network-name" transform="rotate(90 0 0)" style="font-weight: bold; font-size: 13px; fill: #FFF; text-anchor: middle" pointer-events="none">Network</text>
       <text x="0" y="-20" class="network-cidr" transform="rotate(90 0 0)" style="font-size: 12px; text-anchor: end">0.0.0.0</text>
       <text x="0" y="-20" class="network-type" transform="rotate(90 0 0)" style="text-anchor: end;"
-            data-toggle="tooltip" data-placement="bottom" title="외부 네트워크"></text>
+            data-toggle="tooltip" data-placement="bottom"></text>
     </g>
     <g class="router_normal device_body">
       <g class="ports" pointer-events="none"></g>
@@ -101,7 +101,7 @@
       <text x="250" y="-4" class="network-name" transform="rotate(90 0 0)" pointer-events="none" style="font-weight: bold; font-size: 13px; fill: #FFF; text-anchor: middle">Network</text>
       <text x="490" y="-20" class="network-cidr" transform="rotate(90 0 0)" style="font-size: 12px; text-anchor: end">0.0.0.0</text>
       <text x="490" y="-20" class="network-type" transform="rotate(90 0 0)" style="text-anchor: end"
-            data-toggle="tooltip" data-placement="bottom" title="외부 네트워크"></text>
+            data-toggle="tooltip" data-placement="bottom"></text>
     </g>
   </svg>
 </div>
