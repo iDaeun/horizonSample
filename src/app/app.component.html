@@ -1,8 +1,8 @@
 <div id="flatTopologyCanvasContainer">
-  <div id="loader-inline" class="loader-inline">
-    <span class="loader fa fa-spinner fa-spin fa-4x text-center"></span>
-    <div class="loader-caption h4 text-center"></div>
-  </div>
+<!--  <div id="loader-inline" class="loader-inline">-->
+<!--    <span class="loader fa fa-spinner fa-spin fa-4x text-center"></span>-->
+<!--    <div class="loader-caption h4 text-center"></div>-->
+<!--  </div>-->
   <div class="nodata"></div>
   <svg width="400" height="400" id="topology_canvas">
     <defs>
@@ -35,30 +35,42 @@
   <svg id="topology_template" display="none">
     <g class="router_small device_body">
       <g class="ports" pointer-events="none"></g>
-      <rect rx="3" ry="3" width="20" height="20" class="frame" style="stroke: #333; fill: #FFFFFF; stroke-width: 3;"></rect>
-      <g transform="translate(3.5,3)" class="icon">
-        <polygon points="12.51,4.23 12.51,0.49 8.77,0.49 9.68,1.4 6.92,4.16 8.84,6.08 11.6,3.32  "></polygon>
-        <polygon points="0.49,8.77 0.49,12.51 4.23,12.51 3.32,11.6 6.08,8.83 4.17,6.92 1.4,9.68  "></polygon>
-        <polygon points="1.85,5.59 5.59,5.59 5.59,1.85 4.68,2.76 1.92,0 0,1.92 2.76,4.68   "></polygon>
-        <polygon points="11.15,7.41 7.41,7.41 7.41,11.15 8.32,10.24 11.08,13 13,11.08 10.24,8.32   "></polygon>
-      </g>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" fill="white"/>
+        <path d="M9.99999 7.33464C7.41999 7.33464 5.33332 9.4213 5.33332 12.0013H6.66666C6.66666 10.1613 8.15999 8.66797 9.99999 8.66797C11.84 8.66797 13.3333 10.1613 13.3333 12.0013H14.6667C14.6667 9.4213 12.58 7.33464 9.99999 7.33464ZM9.99999 4.66797C5.95332 4.66797 2.66666 7.95464 2.66666 12.0013H3.99999C3.99999 8.68797 6.68666 6.0013 9.99999 6.0013C13.3133 6.0013 16 8.68797 16 12.0013H17.3333C17.3333 7.95464 14.0467 4.66797 9.99999 4.66797Z" fill="#222222"/>
+        <path d="M10.6667 13.528C11.2533 13.268 11.6667 12.688 11.6667 12.0013C11.6667 11.0813 10.92 10.3346 9.99999 10.3346C9.07999 10.3346 8.33332 11.0813 8.33332 12.0013C8.33332 12.6813 8.74666 13.268 9.33332 13.528V15.728H10.6667V13.528Z" fill="#222222"/>
+        <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#222222"/>
+      </svg>
+      <!--      <rect rx="3" ry="3" width="20" height="20" class="frame" style="stroke: #333; fill: #FFFFFF; stroke-width: 3;"></rect>-->
+<!--      <g transform="translate(3.5,3)" class="icon">-->
+<!--        <polygon points="12.51,4.23 12.51,0.49 8.77,0.49 9.68,1.4 6.92,4.16 8.84,6.08 11.6,3.32  "></polygon>-->
+<!--        <polygon points="0.49,8.77 0.49,12.51 4.23,12.51 3.32,11.6 6.08,8.83 4.17,6.92 1.4,9.68  "></polygon>-->
+<!--        <polygon points="1.85,5.59 5.59,5.59 5.59,1.85 4.68,2.76 1.92,0 0,1.92 2.76,4.68   "></polygon>-->
+<!--        <polygon points="11.15,7.41 7.41,7.41 7.41,11.15 8.32,10.24 11.08,13 13,11.08 10.24,8.32   "></polygon>-->
+<!--      </g>-->
     </g>
     <g class="instance_small device_body">
       <g class="ports" pointer-events="none"></g>
-      <rect rx="3" ry="3" width="20" height="20" class="frame" style="stroke: #333; fill: #FFFFFF; stroke-width: 3;"></rect>
-      <g transform="translate(5,3)" class="icon">
-        <rect class="instance_bg" width="10" height="13"></rect>
-        <rect x="2" y="1" fill="#FFFFFF" width="6" height="2"></rect>
-        <rect x="2" y="4" fill="#FFFFFF" width="6" height="2"></rect>
-        <circle class="active" cx="3" cy="10" r="1.3" fill="#5cb85c"></circle>
-      </g>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" fill="white"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.3333 3.33203H6.66667V4.66536H13.3333V3.33203ZM5.33333 5.9987H14.6667V7.33203H5.33333V5.9987ZM16 9.9987V15.9987C16 16.732 15.4 17.332 14.6667 17.332H5.33333C4.6 17.332 4 16.732 4 15.9987V9.9987C4 9.26536 4.6 8.66536 5.33333 8.66536H14.6667C15.4 8.66536 16 9.26536 16 9.9987ZM14.6667 9.9987H5.33333V15.9987H14.6667V9.9987Z" fill="#222222"/>
+        <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#222222"/></svg>
+        <!--      <rect rx="3" ry="3" width="20" height="20" class="frame" style="stroke: #333; fill: #FFFFFF; stroke-width: 3;"></rect>-->
+<!--      <g transform="translate(5,3)" class="icon">-->
+<!--        <rect class="instance_bg" width="10" height="13"></rect>-->
+<!--        <rect x="2" y="1" fill="#FFFFFF" width="6" height="2"></rect>-->
+<!--        <rect x="2" y="4" fill="#FFFFFF" width="6" height="2"></rect>-->
+<!--        <circle class="active" cx="3" cy="10" r="1.3" fill="#5cb85c"></circle>-->
+<!--      </g>-->
     </g>
     <g class="network_container_small">
       <rect rx="7" ry="7" width="15" height="200" style="fill: #8541B5;" class="network-rect"></rect>
       <text x="250" y="-3" class="network-name" transform="rotate(90 0 0)" style="font-weight: bold; font-size: 13px; fill: #FFF; text-anchor: middle" pointer-events="none">Network</text>
       <text x="0" y="-20" class="network-cidr" transform="rotate(90 0 0)" style="font-size: 12px; text-anchor: end">0.0.0.0</text>
-      <text x="0" y="-20" class="network-type" transform="rotate(90 0 0)" style="text-anchor: end;"
+      <text x="0" y="-20" class="network-type fa fa_globe_glyph" transform="rotate(90 0 0)" style="font-size:13px;text-anchor: end;"
             data-toggle="tooltip" data-placement="bottom"></text>
+<!--        <svg xmlns="http://www.w3.org/2000/svg" style="text-anchor: end;" width="13" height="13" viewBox="0 0 496 512">&lt;!&ndash; Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) &ndash;&gt;<path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"/></svg>-->
+
     </g>
     <g class="router_normal device_body">
       <g class="ports" pointer-events="none"></g>
@@ -100,8 +112,9 @@
       <rect rx="9" ry="9" width="17" height="500" style="fill: #8541B5;" class="network-rect"></rect>
       <text x="250" y="-4" class="network-name" transform="rotate(90 0 0)" pointer-events="none" style="font-weight: bold; font-size: 13px; fill: #FFF; text-anchor: middle">Network</text>
       <text x="490" y="-20" class="network-cidr" transform="rotate(90 0 0)" style="font-size: 12px; text-anchor: end">0.0.0.0</text>
-      <text x="490" y="-20" class="network-type" transform="rotate(90 0 0)" style="text-anchor: end"
-            data-toggle="tooltip" data-placement="bottom"></text>
+<!--      <text x="490" y="-20" class="network-type" transform="rotate(90 0 0)" style="text-anchor: end"-->
+<!--            data-toggle="tooltip" data-placement="bottom"></text>-->
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 496 512"><!-- Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --><path d="M248 8C111.03 8 0 119.03 0 256s111.03 248 248 248 248-111.03 248-248S384.97 8 248 8zm82.29 357.6c-3.9 3.88-7.99 7.95-11.31 11.28-2.99 3-5.1 6.7-6.17 10.71-1.51 5.66-2.73 11.38-4.77 16.87l-17.39 46.85c-13.76 3-28 4.69-42.65 4.69v-27.38c1.69-12.62-7.64-36.26-22.63-51.25-6-6-9.37-14.14-9.37-22.63v-32.01c0-11.64-6.27-22.34-16.46-27.97-14.37-7.95-34.81-19.06-48.81-26.11-11.48-5.78-22.1-13.14-31.65-21.75l-.8-.72a114.792 114.792 0 0 1-18.06-20.74c-9.38-13.77-24.66-36.42-34.59-51.14 20.47-45.5 57.36-82.04 103.2-101.89l24.01 12.01C203.48 89.74 216 82.01 216 70.11v-11.3c7.99-1.29 16.12-2.11 24.39-2.42l28.3 28.3c6.25 6.25 6.25 16.38 0 22.63L264 112l-10.34 10.34c-3.12 3.12-3.12 8.19 0 11.31l4.69 4.69c3.12 3.12 3.12 8.19 0 11.31l-8 8a8.008 8.008 0 0 1-5.66 2.34h-8.99c-2.08 0-4.08.81-5.58 2.27l-9.92 9.65a8.008 8.008 0 0 0-1.58 9.31l15.59 31.19c2.66 5.32-1.21 11.58-7.15 11.58h-5.64c-1.93 0-3.79-.7-5.24-1.96l-9.28-8.06a16.017 16.017 0 0 0-15.55-3.1l-31.17 10.39a11.95 11.95 0 0 0-8.17 11.34c0 4.53 2.56 8.66 6.61 10.69l11.08 5.54c9.41 4.71 19.79 7.16 30.31 7.16s22.59 27.29 32 32h66.75c8.49 0 16.62 3.37 22.63 9.37l13.69 13.69a30.503 30.503 0 0 1 8.93 21.57 46.536 46.536 0 0 1-13.72 32.98zM417 274.25c-5.79-1.45-10.84-5-14.15-9.97l-17.98-26.97a23.97 23.97 0 0 1 0-26.62l19.59-29.38c2.32-3.47 5.5-6.29 9.24-8.15l12.98-6.49C440.2 193.59 448 223.87 448 256c0 8.67-.74 17.16-1.82 25.54L417 274.25z"/></svg>
     </g>
   </svg>
 </div>
